@@ -29,3 +29,15 @@ jobs:
 
       - name: Build with Maven Wrapper
         run: ./mvnw -B package
+
+      - name: Nexus Repo Publish
+      uses: sonatype-nexus-community/nexus-repo-github-action@1.0.0
+      with:
+        serverUrl: http://192.168.25.146:8081/
+        username: admin
+        password: ${{ secrets.PASSWORD }}
+        filename: ./target/*.jar
+        format: maven2
+        repository: maven-releases
+        coordinates: groupId=com.example artifactId=app version=1.0.0
+        assets: extension=jar
