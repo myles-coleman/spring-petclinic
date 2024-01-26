@@ -27,23 +27,10 @@ jobs:
           cache: maven
           architecture: 'aarch64'
 
-      - name: Build with Maven Wrapper
-        run: ./mvnw -B package
-
-      - name: Install Docker
+      - name: Build with Maven Wrapper and Publish
         run: |
-          sudo apt update
-          sudo apt install docker
-          sudo apt install docker.io
-
-      - name: Nexus Repo Publish
-        uses: sonatype-nexus-community/nexus-repo-github-action@1.0.0
-        with:
-          serverUrl: http://192.168.25.146:8081/
-          username: admin
-          password: ${{ secrets.PASSWORD }}
-          filename: ./target/*.jar
-          format: maven2
-          repository: maven-releases
-          coordinates: groupId=com.example artifactId=app version=1.0.0
-          assets: extension=jar
+          ./mvnw -B package
+          ./mvnw deploy --settings .github/settings.xml
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
