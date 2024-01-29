@@ -4,7 +4,7 @@
                               http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
     <server>
-      <id>maven-releases</id>
+      <id>maven-snapshopts</id>
       <username>${env.NEXUS_USERNAME}</username>
       <password>${env.NEXUS_PASSWORD}</password>
     </server>
